@@ -1,0 +1,19 @@
+module;
+
+#include <string>
+
+export module ThingFramework:Metadata;
+
+/// @defgroup metadata Metadata of ThingFramework
+
+export namespace ThingFramework::Metadata {
+	/**
+	 * Version of ThingFramework library
+	 *
+	 * @return Version string
+	 * @ingroup metadata
+	 */
+	consteval std::string_view version(){
+		return "@ThingFramework_VERSION@";
+	}
+}// namespace ThingFramework

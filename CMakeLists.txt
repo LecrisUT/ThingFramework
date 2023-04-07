@@ -9,7 +9,7 @@ FetchContent_Declare(CMakeExtraUtils
 		FIND_PACKAGE_ARGS CONFIG)
 FetchContent_MakeAvailable(CMakeExtraUtils)
 include(DynamicVersion)
-dynamic_version()
+dynamic_version(PROJECT_PREFIX ThingFramework_)
 
 ### Begin project definition ###
 project(ThingFramework
@@ -100,8 +100,21 @@ endif ()
 # Get all external dependencies
 FetchContent_MakeAvailable(${external_deps})
 
-
 ### Main CMake configuration ###
+## Main exported targets
+add_library(ThingFramework_Lib)
+set_target_properties(ThingFramework_Lib PROPERTIES
+		VERSION ${PROJECT_VERSION}
+		# TODO: Currently unstable api, change when v1.0 is released
+		SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+		EXPORT_NAME thing_framework
+		OUTPUT_NAME ThingFramework)
+add_library(ThingFramework::ThingFramework ALIAS ThingFramework_Lib)
+
+# Public interface module units are in include
+add_subdirectory(include)
+# Main implementation is in src
+add_subdirectory(src)
 
 ## Testing
 if (THINGFRAMEWORK_TEST)

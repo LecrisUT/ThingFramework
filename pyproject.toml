@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ThingFramework-devtools"
+description = "Development tools for ThingFramework"
+readme = "README.md"
+license = { file = "LICENSE.md" }
+authors = [
+    { name = "Cristian Le", email = "cristian.le@mpsd.mpg.de" },
+]
+maintainers = [
+    { name = "Cristian Le", email = "cristian.le@mpsd.mpg.de" },
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+test = [
+]
+docs = [
+    "sphinx >= 6.0",
+    "sphinx-rtd-theme",
+    "sphinx-design",
+    "sphinx-togglebutton",
+    "myst-parser >= 1.0",
+    "breathe",
+]
+dev = [
+    "pre-commit",
+]

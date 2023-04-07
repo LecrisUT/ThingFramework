@@ -7,6 +7,7 @@
   },
   "include": [
     "cmake/CMakePresets-defaults.json",
-    "cmake/CMakePresets-CI.json"
+    "cmake/CMakePresets-CI.json",
+    "cmake/CMakePresets-utility.json"
   ]
 }

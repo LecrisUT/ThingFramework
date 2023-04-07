@@ -21,11 +21,14 @@ test = [
 docs = [
     "sphinx >= 6.0",
     "sphinx-rtd-theme",
+    "furo",
     "sphinx-design",
     "sphinx-togglebutton",
     "myst-parser >= 1.0",
     "breathe",
+    "Pygments",
 ]
 dev = [
+    "ThingFramework-devtools[test]",
     "pre-commit",
 ]

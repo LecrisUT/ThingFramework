@@ -1,7 +1,8 @@
 {
   "version": 6,
   "include": [
-    "CMakePresets-defaults.json"
+    "CMakePresets-defaults.json",
+    "CMakePresets-utility.json"
   ],
   "configurePresets": [
     {
@@ -93,6 +94,16 @@
           "value": "lld"
         }
       }
+    },
+    {
+      "name": "rtd",
+      "displayName": "Configure preset for ReadTheDocs",
+      "inherits": [
+        "docs"
+      ],
+      "environment": {
+        "DOXYGEN_DIR": "${sourceDir}/cmake-build-docs/doc/xml"
+      }
     }
   ],
   "buildPresets": [
@@ -135,6 +146,14 @@
         "ci-base"
       ],
       "configurePreset": "llvm-ci"
+    },
+    {
+      "name": "rtd",
+      "displayName": "Build preset for ReadTheDocs",
+      "configurePreset": "rtd",
+      "targets": [
+        "ThingsFramework_doxygen"
+      ]
     }
   ],
   "testPresets": [
@@ -251,6 +270,20 @@
         {
           "type": "test",
           "name": "ci-coverage"
+        }
+      ]
+    },
+    {
+      "name": "rtd",
+      "displayName": "ReadTheDocs workflow preset",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "rtd"
+        },
+        {
+          "type": "build",
+          "name": "rtd"
         }
       ]
     }

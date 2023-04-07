@@ -11,6 +11,9 @@ build:
     python: "3.11"
   jobs:
     pre_build:
-      - echo "Placeholder for doxygen builds via cmake"
+      ## TODO: unbuntu-22.04 does not ship cmake 3.25
+      #- cmake --workflow --preset rtd
+      - cmake -THINGFRAMEWORK_DOCS=ON -THINGFRAMEWORK_TEST=OFF -B ./cmake-build-docs
+      - cmake --build ./cmake-build-docs --target ThingsFramework_doxygen
 sphinx:
   configuration: doc/conf.py

@@ -79,6 +79,12 @@ endif ()
 
 ## External dependencies
 set(external_deps "")
+# Project dependencies
+FetchContent_Declare(nlohmann_json
+		GIT_REPOSITORY https://github.com/nlohmann/json.git
+		GIT_TAG v3.11.2
+		FIND_PACKAGE_ARGS CONFIG)
+list(APPEND external_deps nlohmann_json)
 # Testing framework
 if (THINGFRAMEWORK_TEST)
 	FetchContent_Declare(Catch2

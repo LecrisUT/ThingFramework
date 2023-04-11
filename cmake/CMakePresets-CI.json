@@ -82,7 +82,17 @@
       "inherits": [
         "ci-base"
       ],
-      "binaryDir": "cmake-build-pre-commit"
+      "binaryDir": "cmake-build-pre-commit",
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": {
+          "type": "FILEPATH",
+          "value": "clang++"
+        },
+        "CMAKE_LINKER": {
+          "type": "FILEPATH",
+          "value": "lld"
+        }
+      }
     }
   ],
   "buildPresets": [

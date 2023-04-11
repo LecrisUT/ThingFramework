@@ -51,6 +51,32 @@ if (THINGFRAMEWORK_TEST_COVERAGE)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
 endif ()
 
+## C++20 modules
+# TODO: Remove when no longer experimental
+set(CMAKE_EXPERIMENTAL_CXX_MODULE_CMAKE_API 2182bf5c-ef0d-489a-91da-49dbc3090d2a)
+set(CMAKE_EXPERIMENTAL_CXX_MODULE_DYNDEP TRUE)
+if (CMAKE_CXX_COMPILER_ID STREQUAL GNU)
+	message(FATAL_ERROR
+			"ThingFramework: Compiler not supported: ${CMAKE_CXX_COMPILER_ID}")
+	set(CMAKE_EXPERIMENTAL_CXX_MODULE_MAP_FORMAT gcc)
+	set(CMAKE_EXPERIMENTAL_CXX_MODULE_MAP_FLAG
+			"${compiler_flags_for_module_map} -fmodule-mapper=<MODULE_MAP_FILE>")
+	string(CONCAT CMAKE_EXPERIMENTAL_CXX_SCANDEP_SOURCE
+			"<CMAKE_CXX_COMPILER> <DEFINES> <INCLUDES> <FLAGS> <SOURCE>"
+			" -MT <DYNDEP_FILE> -MD -MF <DEP_FILE>"
+			" ${flags_to_scan_deps} -fdep-file=<DYNDEP_FILE> -fdep-output=<OBJECT>"
+			)
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL Clang)
+	set(CMAKE_CXX_EXTENSIONS OFF)
+	set(CMAKE_EXPERIMENTAL_CXX_MODULE_MAP_FORMAT clang)
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL IntelLLVM)
+	message(WARNING "Intel compiler not tested")
+	set(CMAKE_EXPERIMENTAL_CXX_MODULE_MAP_FORMAT clang)
+else ()
+	message(FATAL_ERROR
+			"ThingFramework: Compiler not supported: ${CMAKE_CXX_COMPILER_ID}")
+endif ()
+
 ## External dependencies
 set(external_deps "")
 # Testing framework

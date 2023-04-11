@@ -1,0 +1,12 @@
+include(Catch)
+add_executable(ThingFramework_Tests)
+set_target_properties(ThingFramework_Tests PROPERTIES
+		OUTPUT_NAME tests)
+target_link_libraries(ThingFramework_Tests PRIVATE
+		Catch2::Catch2WithMain ThingFramework_Lib)
+target_compile_definitions(ThingFramework_Tests PRIVATE
+		CATCH_CONFIG_RUNTIME_STATIC_REQUIRE)
+
+add_subdirectory(Utility)
+
+catch_discover_tests(ThingFramework_Tests)

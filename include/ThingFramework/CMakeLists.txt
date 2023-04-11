@@ -5,3 +5,9 @@ target_sources(ThingFramework_Lib PUBLIC
 		FILES
 		${CMAKE_CURRENT_BINARY_DIR}/Metadata.ixx
 		)
+
+foreach (dir IN ITEMS
+		Utility
+		)
+	add_subdirectory(${dir})
+endforeach ()

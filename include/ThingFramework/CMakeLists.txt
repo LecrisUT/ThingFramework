@@ -7,6 +7,7 @@ target_sources(ThingFramework_Lib PUBLIC
 		)
 
 foreach (dir IN ITEMS
+		Interfaces
 		Utility
 		)
 	add_subdirectory(${dir})

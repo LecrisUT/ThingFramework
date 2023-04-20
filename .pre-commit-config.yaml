@@ -15,14 +15,16 @@ repos:
           - '--preset'
           - 'pre-commit'
           - '-i'
-      - id: clang-tidy
-        args:
-          # TODO: Remove when upstream issue is fixed
-          # https://gitlab.kitware.com/cmake/cmake/-/issues/24827
-          # https://github.com/Takishima/cmake-pre-commit-hooks/issues/63
-          - '-Bcmake-build-pre-commit'
-          - '--preset'
-          - 'pre-commit'
+        # TODO: Disabling clang-tidy because it fails on modules
+        # https://github.com/llvm/llvm-project/issues/62258
+#      - id: clang-tidy
+#        args:
+#          # TODO: Remove when upstream issue is fixed
+#          # https://gitlab.kitware.com/cmake/cmake/-/issues/24827
+#          # https://github.com/Takishima/cmake-pre-commit-hooks/issues/63
+#          - '-Bcmake-build-pre-commit'
+#          - '--preset'
+#          - 'pre-commit'
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.16
     hooks:

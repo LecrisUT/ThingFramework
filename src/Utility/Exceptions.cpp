@@ -13,3 +13,10 @@ NotImplemented::NotImplemented(std::string_view operation) {
 const char* NotImplemented::what() const noexcept {
 	return message.c_str();
 }
+
+IllDefined::IllDefined(std::string_view operation) {
+	message = "Operation [" + std::string(operation) + "] is ill-defined ";
+}
+const char* IllDefined::what() const noexcept {
+	return message.c_str();
+}

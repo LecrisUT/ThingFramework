@@ -6,3 +6,8 @@ target_sources(ThingFramework_Lib PUBLIC
 		Utility.ixx
 		Standard.ixx
 		)
+foreach (dir IN ITEMS
+		DynamicLibrary
+		)
+	add_subdirectory(${dir})
+endforeach ()

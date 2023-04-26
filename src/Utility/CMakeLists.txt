@@ -7,3 +7,8 @@ target_sources(ThingFramework_Lib PUBLIC
 		Concepts.cppm
 		Standard.cppm
 		)
+foreach (dir IN ITEMS
+		DynamicLibrary
+		)
+	add_subdirectory(${dir})
+endforeach ()

@@ -4,4 +4,5 @@ target_sources(ThingFramework_Lib PUBLIC
 		Concepts.ixx
 		Exceptions.ixx
 		Registrar.ixx
+		Traits.ixx
 		)

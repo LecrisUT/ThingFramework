@@ -1,13 +1,29 @@
 module;
 
+#include <string>
 #include <typeindex>
 
 module ThingFramework.Interfaces;
+import ThingFramework.Utility;
 //import ThingFramework.Registrar;
 
 using namespace ThingFramework::Interfaces;
 
-void IExposable::ExposeData(Scriber& scriber) {}
+void IExposable::ExposeData(Scriber& scriber) {
+	throw NotImplemented("ExposeData");
+}
+IExposable::IExposable() {
+	throw NotImplemented("IExposable");
+}
+std::string_view IExposable::GetName() const {
+	throw NotImplemented("GetName");
+}
+const TypeInfo& IExposable::GetType() const {
+	throw NotImplemented("GetType");
+}
+void IExposable::RegisterName(std::string_view name) {
+	throw NotImplemented("RegisterName");
+}
 
 //const TypeInfo& IExposable::GetType() const {
 //	return TypeInfo::registrar[typeid(*this)];

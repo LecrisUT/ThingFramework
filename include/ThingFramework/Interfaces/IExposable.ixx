@@ -7,7 +7,6 @@ export module ThingFramework.Interfaces:IExposable;
 
 namespace ThingFramework {
 	namespace Interfaces {
-		class ScribeDriver;
 		class Scriber;
 	}// namespace Interfaces
 	namespace Utility {
@@ -21,11 +20,7 @@ using namespace ThingFramework::Utility;
 export namespace ThingFramework::Interfaces {
 	class IExposable {
 	public:
-		std::shared_ptr<ScribeDriver> format;
-
-	public:
 		IExposable();
-		explicit IExposable(std::string_view format);
 
 	public:
 		virtual void ExposeData(Scriber& scriber);

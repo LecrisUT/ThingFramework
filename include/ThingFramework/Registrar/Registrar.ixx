@@ -5,3 +5,6 @@ export module ThingFramework.Registrar;
 export import :Concepts;
 export import :Exceptions;
 export import :Standard;
+export import :ObjectRegistrar;
+export import :RefRegistrar;
+export import :SharedRegistrar;

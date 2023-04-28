@@ -8,3 +8,4 @@ target_sources(ThingFramework_Lib PUBLIC
 		Standard.ixx
 		Traits.ixx
 		)
+add_subdirectory(Registrars)

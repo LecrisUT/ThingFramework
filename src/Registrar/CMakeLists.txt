@@ -10,3 +10,4 @@ target_sources(ThingFramework_Lib PUBLIC
 		IRegistrar.cppm
 		IRegistrar_coro.cppm
 		)
+add_subdirectory(Registrars)

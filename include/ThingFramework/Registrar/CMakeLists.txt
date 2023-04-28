@@ -5,5 +5,6 @@ target_sources(ThingFramework_Lib PUBLIC
 		Exceptions.ixx
 		IRegistrar.ixx
 		Registrar.ixx
+		Standard.ixx
 		Traits.ixx
 		)

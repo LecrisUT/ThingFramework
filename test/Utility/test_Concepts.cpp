@@ -77,6 +77,61 @@ TEMPLATE_TEST_CASE_SIG("Utility Concepts: Check string comparable concepts", "[U
 	}
 }
 
+// Check Transparent keys
+struct TransparentClass {
+	std::string name;
+	TransparentClass(std::string_view name) : name{name} {}
+};
+template<>
+struct std::less<TransparentClass> {
+	using is_transparent = void;
+	constexpr bool operator()(const TransparentClass& lhs, const TransparentClass& rhs) const {
+		return lhs.name < rhs.name;
+	}
+	constexpr bool operator()(const TransparentClass& lhs, std::string_view rhs) const {
+		return lhs.name < rhs;
+	}
+	constexpr bool operator()(std::string_view lhs, const TransparentClass& rhs) const {
+		return lhs < rhs.name;
+	}
+};
+template<>
+struct std::equal_to<TransparentClass> {
+	using is_transparent = void;
+	constexpr bool operator()(const TransparentClass& lhs, const TransparentClass& rhs) const {
+		return lhs.name == rhs.name;
+	}
+	constexpr bool operator()(const TransparentClass& lhs, std::string_view rhs) const {
+		return lhs.name == rhs;
+	}
+	constexpr bool operator()(std::string_view lhs, const TransparentClass& rhs) const {
+		return lhs == rhs.name;
+	}
+};
+template<>
+struct std::hash<TransparentClass>
+    : std::hash<std::string> {
+	using is_transparent = void;
+	using std::hash<std::string>::operator();
+	constexpr size_t operator()(const TransparentClass& val) const {
+		return std::hash<std::string>::operator()(val.name);
+	}
+};
+TEMPLATE_TEST_CASE_SIG("Utility Concepts: Check TransparentKeys", "[Utility]",
+                       ((typename T, typename Key, bool is_key), T, Key, is_key),
+                       (TransparentClass, std::string, true),    // Explicitly defined keys should be valid
+                       (TransparentClass, std::string_view, true)// Derived keys should work too
+) {
+	STATIC_CHECK(TransparentLessKey<Key, T> == is_key);
+	STATIC_CHECK(TransparentEqualKey<Key, T> == is_key);
+	STATIC_CHECK(TransparentKey<Key, T> == is_key);
+	if constexpr (is_key) {
+		std::set<T> set{T("name1"), T("name2")};
+		CHECK(set.contains("name1"));
+		CHECK(!set.contains("name3"));
+	}
+}
+
 
 // TODO: Migrate to proper testing
 //TEST_CASE("Utility Concepts", "[Utility]") {

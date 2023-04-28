@@ -68,6 +68,13 @@ namespace ThingFramework::Registrar {
 		// Implemented coroutine functions
 		static std::future<std::reference_wrapper<IExposable>> AwaitGetRef(IRegistrarBase& registrar, std::string_view name);
 		static std::future<std::shared_ptr<IExposable>> AwaitGetPtr(IRegistrarBase& registrar, std::string_view name);
+
+	private:
+		// TODO: Find a way to fix this
+		bool HasQueue() {
+			// Hack because `registrar.registrationQueue[name]` does not work without it
+			return registrar.registrationQueue.contains(name);
+		}
 	};
 	/**
 	 * Registrar awaiter. Keeps track of registrar queries.

@@ -6,6 +6,7 @@ module;
 
 module ThingFramework.Registrar;
 import :Exceptions;
+import :IRegistrar_h;
 
 using namespace ThingFramework::Registrar;
 

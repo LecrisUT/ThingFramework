@@ -3,6 +3,7 @@ target_sources(ThingFramework_Lib PUBLIC
 		FILES
 		Concepts.ixx
 		Exceptions.ixx
+		IRegistrar.ixx
 		Registrar.ixx
 		Traits.ixx
 		)

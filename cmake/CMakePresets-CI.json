@@ -25,6 +25,20 @@
       "binaryDir": "cmake-build-coverage",
       "errors": {
         "deprecated": false
+      },
+      "cacheVariables": {
+        "THINGFRAMEWORK_TEST_COVERAGE": {
+          "type": "BOOL",
+          "value": true
+        },
+        "CMAKE_CXX_COMPILER": {
+          "type": "FILEPATH",
+          "value": "clang++"
+        },
+        "CMAKE_LINKER": {
+          "type": "FILEPATH",
+          "value": "lld"
+        }
       }
     },
     {

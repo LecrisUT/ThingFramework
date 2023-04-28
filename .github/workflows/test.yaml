@@ -14,8 +14,13 @@ jobs:
     container: fedora
     strategy:
       matrix:
-        toolchain: [ gcc, intel, llvm ]
+        # Only llvm is currently supported
+#        toolchain: [ gcc, intel, llvm ]
+        toolchain: [ llvm ]
     steps:
+      - name: Install common packages
+        run: |
+          sudo dnf -y install ninja-build git
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -26,12 +31,12 @@ jobs:
       ## Install toolchains
       - name: Install GCC packages
         run: |
-          sudo dnf -y install ninja-build g++
+          sudo dnf -y install g++
         if: matrix.toolchain == 'gcc'
       - name: Install LLVM compilers
         # TODO: Currently using gfortran because flang tests fail. See #241 for more details
         run: |
-          sudo dnf install -y clang gcc-gfortran lld
+          sudo dnf install -y clang clang-tools-extra lld
         if: matrix.toolchain == 'llvm'
       - name: Install Intel compiler pre-requisites
         # findutils and procps are needed by intel compiler to run setvars.sh
@@ -95,21 +100,26 @@ jobs:
   coverage:
     runs-on: ubuntu-latest
     needs: [ ctest ]
+    container: fedora
     steps:
+      - name: Install common packages
+        run: |
+          sudo dnf -y install ninja-build git clang clang-tools-extra lld llvm
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      # workaround for https://github.com/actions/runner/issues/2033
+      - name: ownership workaround
+        run: git config --system --add safe.directory '*'
       - uses: lukka/get-cmake@latest
       - name: Get test coverage
         uses: lukka/run-cmake@v10.3
         with:
           workflowPreset: ci-coverage
-      - name: Get lcov data
-        uses: danielealbano/lcov-action@v3
-        with:
-          # Note lcov-action prepends and appends wild-cards *. Account for those
-          # https://github.com/danielealbano/lcov-action/issues/11
-          remove_patterns: /test/,/cmake-build*/
+      - name: Get llvm-cov data
+        run: |
+          llvm-profdata merge -sparse $(find ./cmake-build-coverage -name *.profraw) -o coverage.profdata
+          llvm-cov export ./cmake-build-coverage/libThingFramework.so -instr-profile=./coverage.profdata --format lcov > coverage.info
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:

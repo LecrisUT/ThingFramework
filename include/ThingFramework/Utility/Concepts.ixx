@@ -74,4 +74,45 @@ export namespace ThingFramework {
 	concept Hashable = requires(const This& a) {
 		{ std::hash<This>{}(a) } -> std::convertible_to<std::size_t>;
 	};
+	/**
+	 * Concept that checks if Key type can be used to order T type.
+	 *
+	 * Used for std::set ordering
+	 *
+	 * @tparam Key Key type
+	 * @tparam T Primary type
+	 */
+	template<class Key, class T>
+	concept TransparentLessKey = std::same_as<Key, T> ||
+	                             requires(const std::less<T>& comparator, const Key& key, const T& item) {
+		                             typename std::less<T>::is_transparent;
+		                             comparator(key, item);
+		                             comparator(item, key);
+	                             };
+	/**
+	 * Concept that checks if Key type can be used to check equality of T type.
+	 *
+	 * @tparam Key Key type
+	 * @tparam T Primary type
+	 */
+	template<class Key, class T>
+	concept TransparentEqualKey = std::same_as<Key, T> ||
+	                              requires(const std::equal_to<T>& comparator, const Key& key, const T& item) {
+		                              typename std::equal_to<T>::is_transparent;
+		                              comparator(key, item);
+		                              comparator(item, key);
+	                              };
+	/**
+	 * Concept that checks if Key type is an overall transparent key of T type
+	 *
+	 * @tparam Key Key type
+	 * @tparam T Primary type
+	 */
+	template<class Key, class T>
+	concept TransparentKey = std::same_as<Key, T> ||
+	                         (TransparentLessKey<Key, T> && TransparentEqualKey<Key, T> &&
+	                          requires(const std::hash<T>& hasher, const Key& key) {
+		                          typename std::hash<T>::is_transparent;
+		                          hasher(key);
+	                          });
 }// namespace ThingFramework

@@ -1,0 +1,26 @@
+PROJECT_NAME           = "ThingFramework"
+OUTPUT_DIRECTORY       = ../cmake-build-docs/doc
+INPUT                  = ../include \
+                         ../src
+# FILE_PATTERNS          = *.c *.cc *.cxx *.cpp *.c++ *.java *.ii *.ixx *.ipp *.i++ *.inl *.idl *.ddl *.odl *.h *.hh *.hxx *.hpp *.h++ *.l *.cs *.d *.php *.php4 *.php5 *.phtml *.inc *.m *.markdown *.md *.mm *.dox *.py *.pyw *.f90 *.f95 *.f03 *.f08 *.f18 *.f *.for *.vhd *.vhdl *.ucf *.qsf *.ice
+FILE_PATTERNS          = *.cxx \
+                         *.cxx.in \
+                         *.cpp \
+                         *.cpp.in \
+                         *.cppm \
+                         *.cppm.in \
+                         *.ixx \
+                         *.ixx.in \
+                         *.h \
+                         *.h.in \
+                         *.hpp \
+                         *.hpp.in
+ EXTENSION_MAPPING     = .in=C++
+RECURSIVE              = YES
+
+GENERATE_LATEX         = NO
+GENERATE_MAN           = NO
+GENERATE_RTF           = NO
+QUIET                  = NO
+GENERATE_HTML          = NO
+GENERATE_XML           = YES

@@ -1,2 +1,2 @@
 include(PackageComps)
-find_components()
+find_components(COMPONENTS shared static)

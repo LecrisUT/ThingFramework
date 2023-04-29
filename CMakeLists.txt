@@ -1,4 +1,7 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.22)
+if (POLICY CMP0140)
+	cmake_policy(SET CMP0140 NEW)
+endif ()
 
 ### Project preparations ###
 # Get DynamicVersion utility
@@ -48,7 +51,11 @@ else ()
 endif ()
 # Set test coverage flags
 if (THINGFRAMEWORK_TEST_COVERAGE)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+	if (CMAKE_CXX_COMPILER_ID STREQUAL Clang)
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-instr-generate -fcoverage-mapping")
+	else ()
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+	endif ()
 endif ()
 
 ## C++20 modules
@@ -56,7 +63,7 @@ endif ()
 set(CMAKE_EXPERIMENTAL_CXX_MODULE_CMAKE_API 2182bf5c-ef0d-489a-91da-49dbc3090d2a)
 set(CMAKE_EXPERIMENTAL_CXX_MODULE_DYNDEP TRUE)
 if (CMAKE_CXX_COMPILER_ID STREQUAL GNU)
-	message(FATAL_ERROR
+	message(WARNING
 			"ThingFramework: Compiler not supported: ${CMAKE_CXX_COMPILER_ID}")
 	set(CMAKE_EXPERIMENTAL_CXX_MODULE_MAP_FORMAT gcc)
 	set(CMAKE_EXPERIMENTAL_CXX_MODULE_MAP_FLAG
@@ -73,7 +80,7 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL IntelLLVM)
 	message(WARNING "Intel compiler not tested")
 	set(CMAKE_EXPERIMENTAL_CXX_MODULE_MAP_FORMAT clang)
 else ()
-	message(FATAL_ERROR
+	message(WARNING
 			"ThingFramework: Compiler not supported: ${CMAKE_CXX_COMPILER_ID}")
 endif ()
 
@@ -147,6 +154,16 @@ if (THINGFRAMEWORK_INSTALL)
 			${CMAKE_CURRENT_BINARY_DIR}/ThingFrameworkConfigVersion.cmake
 			${CMAKE_CURRENT_BINARY_DIR}/ThingFrameworkConfig.cmake
 			DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ThingFramework
+			)
+	export_component(LIB_TYPE ${ThingFramework_LIB_TYPE})
+	install(TARGETS ThingFramework_Lib
+			EXPORT ThingFrameworkTargets
+			FILE_SET cxx_modules DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ThingFramework COMPONENT ThingFramework_Development
+			CXX_MODULES_BMI DESTINATION ${CMAKE_INSTALL_LIBDIR}/ThingFramework/modules
+			LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT ThingFramework_Runtime
+			NAMELINK_COMPONENT ThingFramework_Development
+			ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT ThingFramework_Development
+			PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT ThingFramework_Development
 			)
 endif ()
 

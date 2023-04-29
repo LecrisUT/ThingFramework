@@ -1,0 +1,33 @@
+version: 2.1
+
+orbs:
+  codecov: codecov/codecov@3.2.4
+
+workflows:
+  test:
+    jobs:
+      - ctest
+#      - codecov:
+#          requires:
+#            - ctest
+
+jobs:
+  ctest:
+    docker:
+      - image: 'ghcr.io/lecrisut/dev-env:latest'
+    resource_class: medium
+    steps:
+      - checkout
+      - run: cmake --workflow --preset llvm-ci --fresh
+## Disabled because upload fails
+#  codecov:
+#    docker:
+#      - image: 'ghcr.io/lecrisut/dev-env:latest'
+#    resource_class: medium
+#    steps:
+#      - checkout
+#      - run: cmake --workflow --preset ci-coverage --fresh
+#      - run: llvm-profdata merge -sparse $(find ./cmake-build-coverage -name *.profraw) -o coverage.profdata
+#      - run: llvm-cov export ./cmake-build-coverage/libThingFramework.so -instr-profile=./coverage.profdata --format lcov > coverage.info
+#      - codecov/upload:
+#          file: coverage.info

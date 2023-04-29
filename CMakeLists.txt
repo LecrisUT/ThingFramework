@@ -155,6 +155,16 @@ if (THINGFRAMEWORK_INSTALL)
 			${CMAKE_CURRENT_BINARY_DIR}/ThingFrameworkConfig.cmake
 			DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ThingFramework
 			)
+	export_component(LIB_TYPE ${ThingFramework_LIB_TYPE})
+	install(TARGETS ThingFramework_Lib
+			EXPORT ThingFrameworkTargets
+			FILE_SET cxx_modules DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ThingFramework COMPONENT ThingFramework_Development
+			CXX_MODULES_BMI DESTINATION ${CMAKE_INSTALL_LIBDIR}/ThingFramework/modules
+			LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT ThingFramework_Runtime
+			NAMELINK_COMPONENT ThingFramework_Development
+			ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT ThingFramework_Development
+			PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT ThingFramework_Development
+			)
 endif ()
 
 # Make project available for FetchContent

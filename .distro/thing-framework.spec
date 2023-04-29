@@ -7,7 +7,6 @@ License:        GPL-3.0-or-later
 URL:            https://github.com/LecrisUT/ThingFramework
 Source:         https://github.com/LecrisUT/ThingFramework/archive/refs/tags/v%{version}.tar.gz
 
-BuildArch:      noarch
 BuildRequires:  cmake
 BuildRequires:  ninja-build
 BuildRequires:  clang
@@ -55,6 +54,9 @@ This package contains the development files for ThingFramework library
 %doc README.md
 
 %files devel
+# TODO: find the proper installation location
+%{_includedir}/ThingFramework
+%{_libdir}/ThingFramework/modules
 %{_libdir}/libThingFramework.so
 %{_libdir}/cmake/ThingFramework
 

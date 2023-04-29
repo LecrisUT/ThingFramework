@@ -1,10 +1,20 @@
-specfile_path: distro/thing-framework.spec
+specfile_path: .distro/thing-framework.spec
 files_to_sync:
-  - src: distro/thing-framework.spec
+  - src: .distro/thing-framework.spec
     dest: thing-framework.spec
   - .packit.yaml
-  - src: distro/thing-framework.rpmlintrc
+  - src: .distro/thing-framework.rpmlintrc
     dest: thing-framework.rpmlintrc
+  # tmt setup
+  - src: .distro/.fmf/
+    dest: .fmf
+  - src: .distro/plans/
+    dest: plans
+    filters:
+      - "- .distro/plans/main.fmf.dist-git"
+      - "- .distro/plans/rpmlint.fmf"
+  - src: .distro/plans/main.fmf.dist-git
+    dest: plans/main.fmf
 
 upstream_package_name: ThingFramework
 downstream_package_name: thing-framework
@@ -24,6 +34,8 @@ jobs:
     release_suffix: "{PACKIT_RPMSPEC_RELEASE}"
     targets:
       - fedora-development
+    additional_repos:
+      - copr://lecris/release
   - job: tests
     trigger: commit
     branch: main

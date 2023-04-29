@@ -255,4 +255,5 @@ cython_debug/
 ### Project setup
 /CMakeUserPresets.json
 /compile_commands.json
-!/distro/*.spec
+!thing-framework.spec
+*.src.rpm

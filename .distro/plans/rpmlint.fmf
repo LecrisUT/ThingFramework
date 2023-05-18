@@ -1,6 +1,12 @@
 summary:
   Perform rpmlint and rpminspect tests
 prepare:
+  - name: Install rpmlint packages
+    how: install
+    package:
+    - rpmlint
+    - rpminspect
+    - rpminspect-data-fedora
   - name: Download the source rpm
     how: shell
     script: cd /tmp && curl -O ${PACKIT_SRPM_URL}

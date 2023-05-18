@@ -11,12 +11,14 @@ on:
 jobs:
   ctest:
     runs-on: ubuntu-latest
-    container: ghcr.io/lecrisut/dev-env:latest
+    container: ghcr.io/lecrisut/dev-env:main
+    continue-on-error: ${{ matrix.experimental }}
     strategy:
+      fail-fast: false
       matrix:
         # Only llvm is currently supported
-#        toolchain: [ gcc, intel, llvm ]
         toolchain: [ llvm ]
+        experimental: [ false ]
     steps:
       - uses: actions/checkout@v3
         with:
@@ -25,15 +27,14 @@ jobs:
       - name: ownership workaround
         run: git config --system --add safe.directory '*'
       - name: Activate Intel compilers
-        # Not elegant, it will propagate all environment variable.
-        # Intel does not provide a way to output the environment variables to a file
-        # Note: PATH needs to be exported to GITHUB_PATH otherwise it can be overwritten
         run: |
           source /opt/intel/oneapi/setvars.sh
           printenv >> $GITHUB_ENV
           echo $PATH >> $GITHUB_PATH
         if: matrix.toolchain == 'intel'
 
+      - name: Get the latest cmake version
+        uses: lukka/get-cmake@latest
       ## Main
       - name: Run CMake configuration for ${{ matrix.toolchain }} toolchain
         uses: lukka/run-cmake@v10.3
@@ -43,7 +44,7 @@ jobs:
   coverage:
     runs-on: ubuntu-latest
     needs: [ ctest ]
-    container: ghcr.io/lecrisut/dev-env:latest
+    container: ghcr.io/lecrisut/dev-env:main
     steps:
       - uses: actions/checkout@v3
         with:

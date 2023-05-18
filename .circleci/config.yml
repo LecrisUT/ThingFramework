@@ -14,7 +14,7 @@ workflows:
 jobs:
   ctest:
     docker:
-      - image: 'ghcr.io/lecrisut/dev-env:latest'
+      - image: 'ghcr.io/lecrisut/dev-env:main'
     resource_class: medium
     steps:
       - checkout

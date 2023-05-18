@@ -3,3 +3,7 @@ tag:
   - smoke
 tier: 0
 path: /
+
+/dummy:
+  summary: Temporary placeholder
+  test: echo 'TODO Implement me'

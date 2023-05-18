@@ -14,7 +14,6 @@ BuildRequires:  clang-tools-extra
 BuildRequires:  cmake-extra-utils
 BuildRequires:  catch-devel
 BuildRequires:  json-devel
-Requires:       cmake
 
 %description
 Extensible plugin system written for C++
@@ -22,7 +21,6 @@ Extensible plugin system written for C++
 %package devel
 Summary:   Development package for thing-framework
 Requires:  thing-framework%{?_isa} = %{version}-%{release}
-Requires:  cmake-extra-utils
 
 %description devel
 This package contains the development files for ThingFramework library
@@ -59,6 +57,7 @@ This package contains the development files for ThingFramework library
 %{_libdir}/ThingFramework/modules
 %{_libdir}/libThingFramework.so
 %{_libdir}/cmake/ThingFramework
+
 
 %changelog
 %autochangelog
